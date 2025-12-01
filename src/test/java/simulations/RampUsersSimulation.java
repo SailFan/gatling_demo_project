@@ -12,7 +12,7 @@ import java.time.Duration;
 import static io.gatling.javaapi.core.CoreDsl.*;
 import static io.gatling.javaapi.http.HttpDsl.*;
 
-//在指定时间内线性增加用户
+//在指定时间内线性增加用户,增加用户的速度恒定
 public class RampUsersSimulation extends Simulation {
 
 
