@@ -9,7 +9,7 @@ import io.gatling.javaapi.http.*;
 import static io.gatling.javaapi.core.CoreDsl.*;
 import static io.gatling.javaapi.http.HttpDsl.*;
 
-
+// 一次性启动指定数量的用户
 public class AtOnceUsersSimulation extends Simulation {
 
     HttpProtocolBuilder httpProtocolBuilder = http.baseUrl("http://localhost:9527/");
