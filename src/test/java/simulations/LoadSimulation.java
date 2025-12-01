@@ -1,0 +1,25 @@
+package simulations;
+
+import ApiEndpoints.APiEndpoints;
+
+import io.gatling.javaapi.core.*;
+import io.gatling.javaapi.http.*;
+
+
+import static io.gatling.javaapi.core.CoreDsl.*;
+import static io.gatling.javaapi.http.HttpDsl.*;
+
+
+public class LoadSimulation extends Simulation {
+
+    HttpProtocolBuilder httpProtocolBuilder = http.baseUrl("http://localhost:9527/");
+
+    ScenarioBuilder scenarioBuilder = scenario("对比").exec(APiEndpoints.load);
+    {
+        setUp(
+                scenarioBuilder.injectOpen(atOnceUsers(10)) // 执行器
+        ).protocols(httpProtocolBuilder);          // HTTP 协议配置
+    }
+
+
+}

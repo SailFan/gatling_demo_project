@@ -1,0 +1,16 @@
+<configuration>
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%-5level] %logger{15} - %msg%n%rEx</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="io.gatling.core.config" level="DEBUG"/>
+    <logger name="io.gatling.core.config.GatlingConfiguration" level="DEBUG"/>
+    <logger name="io.gatling.core.config.GatlingConfigurationBuilder" level="DEBUG"/>
+    <logger name="io.gatling.core.config.ConfigLoader" level="DEBUG"/>
+
+    <root level="TRACE">
+        <appender-ref ref="CONSOLE" />
+    </root>
+</configuration>
