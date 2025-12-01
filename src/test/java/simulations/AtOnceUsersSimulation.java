@@ -10,7 +10,7 @@ import static io.gatling.javaapi.core.CoreDsl.*;
 import static io.gatling.javaapi.http.HttpDsl.*;
 
 
-public class LoadSimulation extends Simulation {
+public class AtOnceUsersSimulation extends Simulation {
 
     HttpProtocolBuilder httpProtocolBuilder = http.baseUrl("http://localhost:9527/");
 
