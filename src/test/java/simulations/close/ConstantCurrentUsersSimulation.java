@@ -1,4 +1,4 @@
-package simulations;
+package simulations.close;
 
 
 
@@ -20,7 +20,7 @@ public class ConstantCurrentUsersSimulation extends Simulation {
 
     {
         setUp(
-            scenarioBuilder.injectOpen(constantUsersPerSec(20).during(20))
+            scenarioBuilder.injectClosed(constantConcurrentUsers(10).during(10))
         ).protocols(httpProtocolBuilder);
     }
 }

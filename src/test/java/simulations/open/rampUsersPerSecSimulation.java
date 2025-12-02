@@ -1,4 +1,4 @@
-package simulations;
+package simulations.open;
 
 import io.gatling.javaapi.core.Simulation;
 import ApiEndpoints.APiEndpoints;
