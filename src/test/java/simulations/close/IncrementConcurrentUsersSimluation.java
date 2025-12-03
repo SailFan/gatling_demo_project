@@ -23,8 +23,8 @@ public class IncrementConcurrentUsersSimluation extends Simulation {
                 scenarioBuilder.injectClosed(
                         incrementConcurrentUsers(10).
                                 times(5).
-                                eachLevelLasting(20)
-                                .separatedByRampsLasting(5)
+                                eachLevelLasting(20000)
+                                .separatedByRampsLasting(5000)
                                 .startingFrom(5)
                 )
         ).protocols(httpProtocolBuilder);
