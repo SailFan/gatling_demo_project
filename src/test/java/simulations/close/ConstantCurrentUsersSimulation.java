@@ -4,10 +4,12 @@ package simulations.close;
 
 import ApiEndpoints.APiEndpoints;
 
+import feeders.UserFeeder;
 import io.gatling.javaapi.core.*;
 import io.gatling.javaapi.http.*;
 
 
+import static feeders.UserFeeder.userFeeder;
 import static io.gatling.javaapi.core.CoreDsl.*;
 import static io.gatling.javaapi.http.HttpDsl.*;
 
@@ -15,12 +17,17 @@ import static io.gatling.javaapi.http.HttpDsl.*;
 public class ConstantCurrentUsersSimulation extends Simulation {
     HttpProtocolBuilder httpProtocolBuilder = http.baseUrl("http://localhost:9527/");
     ScenarioBuilder scenarioBuilder = scenario("constantCurrentUsersSimulationExample")
+            .feed(userFeeder)
+            .exec(session -> {
+                System.out.println("试试"+session.getString("username"));
+                return session;
+            })
             .exec(APiEndpoints.load.check(bodyString().saveAs("response")));
 
 
     {
         setUp(
-            scenarioBuilder.injectClosed(constantConcurrentUsers(10).during(10))
+            scenarioBuilder.injectClosed(constantConcurrentUsers(1).during(1))
         ).protocols(httpProtocolBuilder);
     }
 }

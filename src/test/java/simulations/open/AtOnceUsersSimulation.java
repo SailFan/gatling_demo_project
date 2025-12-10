@@ -2,6 +2,7 @@ package simulations.open;
 
 import ApiEndpoints.APiEndpoints;
 
+import feeders.UserFeeder;
 import io.gatling.javaapi.core.*;
 import io.gatling.javaapi.http.*;
 
@@ -15,12 +16,17 @@ public class AtOnceUsersSimulation extends Simulation {
     HttpProtocolBuilder httpProtocolBuilder = http.baseUrl("http://localhost:9527/");
 
     ScenarioBuilder scenarioBuilder = scenario("对比")
+            .feed(UserFeeder.jsonFeeder)
             .exec(session -> {
                 System.out.println("请求名称: 对比K6");
                 System.out.println("请求方法: GET");
                 System.out.println("请求URL: api/data?load=10000000");
                 return session;
 
+            }).
+            exec(session -> {
+                System.out.println("jsonFile"+session.getString("username"));
+                return session;
             })
             .exec(APiEndpoints.load.check(bodyString().saveAs("responseBody")))
             .exec(session -> {
@@ -29,7 +35,7 @@ public class AtOnceUsersSimulation extends Simulation {
             });
     {
         setUp(
-                scenarioBuilder.injectOpen(atOnceUsers(10)) // 执行器
+                scenarioBuilder.injectOpen(atOnceUsers(1)) // 执行器
         ).protocols(httpProtocolBuilder);          // HTTP 协议配置
     }
 

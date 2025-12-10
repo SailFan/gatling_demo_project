@@ -1,6 +1,8 @@
 package feeders;
 
 import io.gatling.javaapi.core.*;
+import org.jspecify.annotations.NonNull;
+
 import static io.gatling.javaapi.core.CoreDsl.*;
 
 
@@ -13,9 +15,11 @@ public class UserFeeder {
     // shuffle 随机打乱整个数据，按队列取，随机 + 顺序保证所有数据都会用一次
 
     public static FeederBuilder.Batchable<String>  userFeeder =
-            csv("data/users.csv").circular();
+            csv("data/user.csv").circular();
 
 
+    public static FeederBuilder. FileBased<Object> jsonFeeder =
+            jsonFile("data/login.json").circular();
 
 
 }
