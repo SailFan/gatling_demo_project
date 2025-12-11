@@ -1,17 +1,17 @@
 package common;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Random;
-import java.util.function.Consumer;
-import java.util.logging.SimpleFormatter;
+import java.util.concurrent.ThreadLocalRandom;
 
-public class RandomProductIterator implements Iterator<Map> {
+public class RandomProductIterator implements Iterator<Map<String, Object>> {
 
-    private static final SimpleDateFormat simpleFormatter = new SimpleDateFormat("YYYYMMDD");
-    private static final Random random = new Random();
+    private static final DateTimeFormatter DATE_FORMATTER =
+            DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS");
 
 
 
@@ -22,18 +22,12 @@ public class RandomProductIterator implements Iterator<Map> {
 
     @Override
     public Map next() {
-        String date = simpleFormatter.format(new Date());
-        String No = simpleFormatter.format(new Date())+String.format("%06d",random.nextInt());
-        return Map.of();
-    }
-
-    @Override
-    public void remove() {
-        Iterator.super.remove();
-    }
-
-    @Override
-    public void forEachRemaining(Consumer<? super Map> action) {
-        Iterator.super.forEachRemaining(action);
+        String date = LocalDateTime.now().format(DATE_FORMATTER);
+        String orderNo = "TS"+date+
+                String.format("%04d", ThreadLocalRandom.current().nextInt(10000));
+        return Map.of(
+                "date", date,
+                "orderNo", orderNo
+        );
     }
 }

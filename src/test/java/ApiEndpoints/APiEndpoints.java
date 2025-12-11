@@ -5,6 +5,7 @@ import io.gatling.javaapi.core.Session;
 import io.gatling.javaapi.http.HttpRequestActionBuilder;
 
 import static io.gatling.javaapi.core.CoreDsl.StringBody;
+import static io.gatling.javaapi.core.CoreDsl.jsonPath;
 import static io.gatling.javaapi.http.HttpDsl.http;
 import static io.gatling.javaapi.http.HttpDsl.status;
 
@@ -38,5 +39,19 @@ public class APiEndpoints {
 
     public static final  HttpRequestActionBuilder load = http("对比K6")
             .get("api/data?load=10000000").check(status().is(200));
+
+
+    public static final HttpRequestActionBuilder cpuStress = http("CpuLoad")
+            .post("api/data")
+
+            .body(StringBody("{\n" +
+                    "  \"load\": ${load},\n" +
+                    "  \"dataCount\": 150,\n" +
+                    "  \"includeTimestamp\": true\n" +
+                    "}"))
+            .asJson()
+            .check(status().is(200))
+            .check(jsonPath("$.success").is(String.valueOf(true)));               // JSON 响应校验
+
 
 }
