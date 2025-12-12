@@ -23,14 +23,7 @@ public class CpuStressTestSimulation extends Simulation {
 
     ScenarioBuilder scenarioBuilder = scenario("CPU压力测试")
             .feed(orderFeeder)
-            .exec(APiEndpoints.cpuStress)
-            .exec(session -> {
-                System.out.println("response value"+session.getString("responseBody"));
-                return session;
-            });
-
-
-
+            .exec(APiEndpoints.cpuStress);
     {
         setUp(
                 scenarioBuilder.injectOpen(
@@ -40,11 +33,11 @@ public class CpuStressTestSimulation extends Simulation {
                         constantUsersPerSec(30).during(Duration.ofSeconds(120)),
                         constantUsersPerSec(40).during(Duration.ofSeconds(120)),
                         constantUsersPerSec(50).during(Duration.ofSeconds(120)),
-                        constantUsersPerSec(60).during(Duration.ofSeconds(120)),
-                        constantUsersPerSec(70).during(Duration.ofSeconds(120)),
-                        constantUsersPerSec(80).during(Duration.ofSeconds(120)),
-                        constantUsersPerSec(90).during(Duration.ofSeconds(120)),
-                        constantUsersPerSec(100).during(Duration.ofSeconds(120))
+                        constantUsersPerSec(60).during(Duration.ofSeconds(120))
+//                        constantUsersPerSec(70).during(Duration.ofSeconds(120)),
+//                        constantUsersPerSec(80).during(Duration.ofSeconds(120)),
+//                        constantUsersPerSec(90).during(Duration.ofSeconds(120)),
+//                        constantUsersPerSec(100).during(Duration.ofSeconds(120))
                         )
         ).protocols(httpProtocolBuilder);
     }

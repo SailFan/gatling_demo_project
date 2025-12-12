@@ -18,9 +18,6 @@ public class AtOnceUsersSimulation extends Simulation {
     ScenarioBuilder scenarioBuilder = scenario("对比")
             .feed(UserFeeder.jsonFeeder)
             .exec(session -> {
-                System.out.println("请求名称: 对比K6");
-                System.out.println("请求方法: GET");
-                System.out.println("请求URL: api/data?load=10000000");
                 return session;
 
             }).
