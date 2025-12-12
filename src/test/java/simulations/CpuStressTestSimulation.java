@@ -6,12 +6,11 @@ import io.gatling.javaapi.core.*;
 import io.gatling.javaapi.http.*;
 
 
-import static feeders.UserFeeder.userFeeder;
+
 import static io.gatling.javaapi.core.CoreDsl.*;
-import static io.gatling.javaapi.core.FeederBuilder.*;
 import static io.gatling.javaapi.http.HttpDsl.*;
 
-import java.util.HashMap;
+import java.time.Duration;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -23,6 +22,33 @@ public class CpuStressTestSimulation extends Simulation {
     Iterator<Map<String, Object>> orderFeeder = new RandomProductIterator();
 
     ScenarioBuilder scenarioBuilder = scenario("CPU压力测试")
+            .feed(orderFeeder)
             .exec(APiEndpoints.cpuStress)
-            .feed(orderFeeder);
+            .exec(session -> {
+                System.out.println("response value"+session.getString("responseBody"));
+                return session;
+            });
+
+
+
+    {
+        setUp(
+                scenarioBuilder.injectOpen(
+                        constantUsersPerSec(1).during(Duration.ofSeconds(1)),
+                        constantUsersPerSec(10).during(Duration.ofSeconds(120)),
+                        constantUsersPerSec(20).during(Duration.ofSeconds(120)),
+                        constantUsersPerSec(30).during(Duration.ofSeconds(120)),
+                        constantUsersPerSec(40).during(Duration.ofSeconds(120)),
+                        constantUsersPerSec(50).during(Duration.ofSeconds(120)),
+                        constantUsersPerSec(60).during(Duration.ofSeconds(120)),
+                        constantUsersPerSec(70).during(Duration.ofSeconds(120)),
+                        constantUsersPerSec(80).during(Duration.ofSeconds(120)),
+                        constantUsersPerSec(90).during(Duration.ofSeconds(120)),
+                        constantUsersPerSec(100).during(Duration.ofSeconds(120))
+                        )
+        ).protocols(httpProtocolBuilder);
+    }
+
+
 }
+

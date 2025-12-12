@@ -3,9 +3,9 @@ package ApiEndpoints;
 
 import io.gatling.javaapi.core.Session;
 import io.gatling.javaapi.http.HttpRequestActionBuilder;
+import org.jspecify.annotations.NonNull;
 
-import static io.gatling.javaapi.core.CoreDsl.StringBody;
-import static io.gatling.javaapi.core.CoreDsl.jsonPath;
+import static io.gatling.javaapi.core.CoreDsl.*;
 import static io.gatling.javaapi.http.HttpDsl.http;
 import static io.gatling.javaapi.http.HttpDsl.status;
 
@@ -42,16 +42,16 @@ public class APiEndpoints {
 
 
     public static final HttpRequestActionBuilder cpuStress = http("CpuLoad")
-            .post("api/data")
+            .post("/api/data")
+            .body(StringBody(session -> {
+                return String.format("{\"date\":\"%s\",\"orderNo\":\"%s\"}", session.getString("date"), session.getString("orderNo"));
 
-            .body(StringBody("{\n" +
-                    "  \"load\": ${load},\n" +
-                    "  \"dataCount\": 150,\n" +
-                    "  \"includeTimestamp\": true\n" +
-                    "}"))
+            }))
             .asJson()
             .check(status().is(200))
-            .check(jsonPath("$.success").is(String.valueOf(true)));               // JSON 响应校验
+            .check(bodyString().saveAs("responseBody"))
+            .check(jsonPath("$.success").is("true"));
+                    // JSON 响应校验
 
 
 }
