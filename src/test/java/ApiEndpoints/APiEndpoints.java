@@ -38,13 +38,13 @@ public class APiEndpoints {
             .check(status().is(200));
 
     public static final  HttpRequestActionBuilder load = http("对比K6")
-            .get("api/data?load=10000000").check(status().is(200));
+            .get("api/data?load=80000000").check(status().is(200));
 
 
     public static final HttpRequestActionBuilder cpuStress = http("CpuLoad")
             .post("/api/data")
             .body(StringBody(session -> {
-                return String.format("{\"date\":\"%s\",\"orderNo\":\"%s\"}", session.getString("date"), session.getString("orderNo"));
+                return String.format("{\"date\":\"%s\",\"orderNo\":\"%s\",\"load\":80000000}", session.getString("date"), session.getString("orderNo"));
 
             }))
             .asJson()
@@ -55,3 +55,6 @@ public class APiEndpoints {
 
 
 }
+//当 p95 RT ≥ p50 RT × 4～5
+//        ⇒ 系统已进入不可逆拥塞区
+//雪崩点通常发生在极限处理能力的 2～4 倍注入速率
